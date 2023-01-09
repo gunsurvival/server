@@ -1,0 +1,28 @@
+{
+	"name": "new-gunsurvival",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node src/index.js",
+		"watch": "tsc src/index.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.18.2",
+		"socket.io": "^4.5.4"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.15",
+		"@types/node": "^18.11.18",
+		"@typescript-eslint/eslint-plugin": ">=5.43.0",
+		"@typescript-eslint/parser": ">=5.43.0",
+		"eslint": ">=8.0.0",
+		"eslint-config-xo": "^0.43.1",
+		"eslint-config-xo-typescript": "^0.55.1",
+		"ts-loader": "^9.4.2",
+		"typescript": "^4.9.4"
+	}
+}
