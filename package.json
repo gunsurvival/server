@@ -1,11 +1,13 @@
 {
+	"type": "module",
 	"name": "new-gunsurvival",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
-		"start": "node src/index.js",
-		"watch": "tsc src/index.ts"
+		"start": "node dist/index.js",
+		"build": "tsc --build",
+		"watch": "nodemon --exec \"npm run build && npm start\" --watch src -e ts"
 	},
 	"keywords": [],
 	"author": "",
