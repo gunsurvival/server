@@ -1,25 +1,22 @@
-import express, {type Express, Request, Response} from 'express';
-import {Server} from 'socket.io';
-import type * as types from './types';
+import {Server} from 'colyseus';
+import {WebSocketTransport} from '@colyseus/ws-transport';
+import {createServer} from 'http';
+import express from 'express';
+const port = Number(process.env.port) || 3000;
 
-const app: Express = express();
-const io = new Server<types.ClientToServerEvents, types.ServerToClientEvents, types.InterServerEvents, types.SocketData>();
-const port: number = Number(process.env.PORT) || 3000;
+const app = express();
+app.use(express.json());
 
-app.listen(port, () => {
-	console.log(`Server listen: *${port}`);
+const gameServer = new Server({
+	transport: new WebSocketTransport({
+		server: createServer(app),
+		pingInterval: 5000,
+		pingMaxRetries: 3,
+	}),
 });
 
-io.on('connection', socket => {
-	socket.emit('noArg');
-	socket.emit('basicEmit', 1, '2', Buffer.from([3]));
-	socket.emit('withAck', '4', e => {
-		// E is inferred as number
-	});
-
-	// Works when broadcast to all
-	io.emit('noArg');
-
-	// Works when broadcasting to a room
-	io.to('room1').emit('basicEmit', 1, '2', Buffer.from([3]));
-});
+try {
+	await gameServer.listen(port);
+} catch (err) {
+	console.error(err);
+}
