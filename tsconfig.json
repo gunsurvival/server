@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"experimentalDecorators": true,
 		"target": "esnext",
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -15,6 +16,6 @@
 		"noEmit": false,
 		"sourceMap": true,
 		"outDir": "dist",
-		"rootDir": "src"
+		"strictPropertyInitialization": false
 	}
 }
