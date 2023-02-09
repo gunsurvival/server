@@ -1,3 +1,6 @@
+import type Entity from '../../core/src/entity/Entity.js';
+import type Player from '../../core/src/player/Player.World.js';
+
 export type ServerToClientEvents = {
 	noArg: () => void;
 	basicEmit: (a: number, b: string, c: Buffer) => void;
@@ -15,4 +18,8 @@ export type InterServerEvents = {
 export type SocketData = {
 	name: string;
 	age: number;
+};
+
+export type UserData = {
+	player: Player<Entity>;
 };
