@@ -14,6 +14,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"colyseus": "^0.14.24",
+		"detect-collisions": "^7.0.0",
 		"express": "^4.18.2",
 		"socket.io": "^4.5.4"
 	},
