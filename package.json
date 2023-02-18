@@ -1,16 +1,14 @@
 {
 	"type": "module",
-	"name": "new-gunsurvival",
+	"name": "@gunsurvival/server",
 	"version": "1.0.0",
-	"description": "",
-	"main": "dist/index.js",
+	"description": "Server for gunsurvival",
 	"scripts": {
-		"start": "node dist/index.js",
-		"build": "tsc --build",
-		"watch": "nodemon --exec \"npm run build && npm start\" --watch src -e ts"
+		"start": "ts-node-esm src/index.ts",
+		"watch": "nodemon --exec \"npm start\" --watch src -e ts"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "khoakomlem",
 	"license": "ISC",
 	"dependencies": {
 		"colyseus": "^0.14.24",
