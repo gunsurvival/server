@@ -1,16 +1,16 @@
 
 import {Room, type Client} from 'colyseus';
-import World from '../../../core/src/world/World.js';
+import * as World from '@gunsurvival/core/world';
 import {type UserData} from '../types.js';
 
-export default class Casual extends Room<World> {
+export default class Casual extends Room<World.World> {
 	isPaused = false;
 	targetDelta: number;
 	elapsedMs = 0;
 	accumulator = 0;
 
 	onCreate() {
-		this.setState(new World());
+		this.setState(new World.Casual());
 
 		this.onMessage('mouse', (client, message: any) => {
 			const entity = this.state.entities.get(client.userData.id as string);

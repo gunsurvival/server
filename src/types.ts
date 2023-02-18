@@ -1,5 +1,5 @@
-import type Entity from '../../core/src/entity/Entity.js';
-import type Player from '../../core/src/player/Player.World.js';
+import type Entity from '@gunsurvival/core/entity';
+import type {Casual as Player} from '@gunsurvival/core/player';
 
 export type ServerToClientEvents = {
 	noArg: () => void;
