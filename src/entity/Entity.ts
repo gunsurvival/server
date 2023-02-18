@@ -21,16 +21,12 @@ export default abstract class Entity extends Schema {
 	abstract stats: unknown; // Need to be re-define interface in child class (with colyseus schema)
 
 	afterUpdate(world: World, tickData: ITickData) {
-		console.log(this.entityCore.id);
-		console.log(world.nextTick);
-		this.entityCore.rigids.forEach(rigid => {
-			this.pos.x = rigid.pos.x;
-			this.pos.y = rigid.pos.y;
-			this.angle = rigid.angle;
-			this.scale = rigid.scale;
-			this.offset.x = rigid.offset.x;
-			this.offset.y = rigid.offset.y;
-		});
+		this.pos.x = body.pos.x;
+		this.pos.y = body.pos.y;
+		this.angle = body.angle;
+		this.scale = body.scale;
+		this.offset.x = body.offset.x;
+		this.offset.y = body.offset.y;
 	}
 
 	abstract update(world: World, tickData: ITickData): void;
