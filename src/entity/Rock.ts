@@ -5,5 +5,4 @@ import getStats from '@gunsurvival/core/stats';
 import type {ITickData} from '@gunsurvival/core/types';
 import Entity from './Entity.js';
 
-export default class Gunner extends Entity {
-}
+export default class Rock extends Entity {}
