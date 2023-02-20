@@ -21,5 +21,6 @@ export type SocketData = {
 };
 
 export type UserData = {
+	entityId: string;
 	player: Player<Entity>;
 };

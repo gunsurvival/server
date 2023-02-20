@@ -19,7 +19,7 @@ const gameServer = new Server({
 try {
 	await gameServer.listen(port);
 	console.log(`Server listening on port ${port}`);
-	gameServer.define('casual', CasualRoom);
+	gameServer.define('casual', CasualRoom).enableRealtimeListing();
 } catch (err) {
 	console.error(err);
 }
