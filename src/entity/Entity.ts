@@ -1,6 +1,5 @@
 import {type, Schema} from '@colyseus/schema';
 import type {ITickData} from '@gunsurvival/core/types';
-import type * as World from '@gunsurvival/core/world';
 import type * as EntityCore from '@gunsurvival/core/entity';
 
 export class VectorSchema extends Schema {
@@ -9,6 +8,7 @@ export class VectorSchema extends Schema {
 }
 
 export default abstract class Entity extends Schema {
+	@type('string') name = this.constructor.name;
 	@type('number') scale = 1;
 	@type('number') angle = 0;
 	@type(VectorSchema) pos: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
