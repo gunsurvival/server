@@ -39,19 +39,21 @@ export default class Casual extends Room {
 
 	onLeave(client: Client) {
 		console.log(client.sessionId, 'LEFT!');
-		// Const entity = this.state.entities.get(client.userData.entityId);
-
-		// Entity may be already dead.
-		// if (entity) {
-		// Entity.dead = true;
-		// }
+		this.state.entities.delete(client.userData.entityId);
 	}
 
 	generateWorld() {
-		for (let i = -5000; i < 5000; i += Math.random() * 3000) {
-			for (let j = -5000; j < 5000; j += Math.random() * 3000) {
+		for (let i = -5000; i < 5000; i += Math.random() * 1000) {
+			for (let j = -5000; j < 5000; j += Math.random() * 1000) {
 				const rock = new EntityCore.Rock(new SAT.Vector(i, j));
 				this.state.worldCore.add(rock);
+			}
+		}
+
+		for (let i = -5000; i < 5000; i += Math.random() * 3000) {
+			for (let j = -5000; j < 5000; j += Math.random() * 1000) {
+				const bush = new EntityCore.Bush(new SAT.Vector(i, j));
+				this.state.worldCore.add(bush);
 			}
 		}
 	}
