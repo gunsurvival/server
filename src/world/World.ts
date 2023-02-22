@@ -5,6 +5,17 @@ import * as Entity from '../entity/index.js';
 import {type ITickData} from '@gunsurvival/core/types';
 
 export default abstract class World extends Schema {
+	// @filterChildren((client, key: string, entity: Entity, root: World) => {
+	// 	const currentPlayer = root.entities.get(client.userData.entityId as string);
+	// 	if (currentPlayer) {
+	// 		const a = entity.body.pos.x - currentPlayer.body.pos.x;
+	// 		const b = entity.body.pos.y - currentPlayer.body.pos.y;
+
+	// 		return (Math.sqrt((a * a) + (b * b))) <= 1366;
+	// 	}
+
+	// 	return false;
+	// })
 	@type({map: Entity.default})
 		entities = new MapSchema<Entity.default>();
 
@@ -13,7 +24,6 @@ export default abstract class World extends Schema {
 	useWorld(worldCore: WorldCore.default) {
 		this.worldCore = worldCore;
 		worldCore.entities.onAdd = (entityCore: EntityCore.default) => {
-			console.log('server add ', entityCore.constructor.name);
 			const EntityClass = (Entity as Record<string, unknown>)[entityCore.constructor.name] as new () => Entity.default;
 			const entityInstance = new EntityClass().assign({entityCore});
 			this.entities.set(entityCore.id, entityInstance);
