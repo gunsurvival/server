@@ -8,6 +8,7 @@ export class VectorSchema extends Schema {
 }
 
 export default abstract class Entity extends Schema {
+	@type('string') id: string;
 	@type('string') name = this.constructor.name;
 	@type('number') scale = 1;
 	@type('number') angle = 0;
