@@ -37,13 +37,17 @@ export default abstract class Room extends RoomColyseus<World.default> {
 		this.state.worldCore.entities.delete((client.userData as UserData).player.entity.id);
 	}
 
-	simulate(tps = 64) {
-		const magicNumber = (0.46 * 128 / tps); // Based on 128 tps, best run on 1-1000tps
-		// const magicNumber2 = (0.41 * 128 / tps); // Based on 128 tps, best run on 2000-10000tps
-		this.targetDeltaMs = (1000 / tps);
-		const deltaMs = performance.now() - this.lastTime;
+	simulate(targetTps = 64) {
+		const magicNumber = (0.46 * 128 / targetTps); // Based on 128 tps, best run on 1-1000tps
+		// const magicNumber2 = (0.41 * 128 / targetTps); // Based on 128 tps, best run on 2000-10000tps
+		let deltaMs = performance.now() - this.lastTime;
 		this.lastTime = performance.now();
+		if (deltaMs > 250) {
+			deltaMs = 250;
+		}
+
 		this.accumulator += deltaMs;
+
 		while (this.accumulator >= this.targetDeltaMs) {
 			this.elapsedTick++;
 			this.accumulator -= this.targetDeltaMs;
@@ -66,7 +70,7 @@ export default abstract class Room extends RoomColyseus<World.default> {
 			this.confirmPaused = true;
 		} else {
 			setImmediate(() => {
-				this.simulate(tps);
+				this.simulate(targetTps);
 			});
 		}
 	}
@@ -76,13 +80,17 @@ export default abstract class Room extends RoomColyseus<World.default> {
 		clearInterval(this.counterTpsInterval);
 	}
 
-	startSimulate(tps: number) {
+	startSimulate(targetTps: number) {
+		this.targetDeltaMs = (1000 / targetTps);
+		// This.setPatchRate(this.targetDeltaMs);
+		this.setPatchRate(30);
+
 		if (!this.confirmPaused) {
 			this.confirmPaused = false;
 			this.isPaused = false;
 			this.lastTime = performance.now();
 			this.countTps();
-			this.simulate(tps);
+			this.simulate(targetTps);
 		}
 	}
 
