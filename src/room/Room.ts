@@ -102,13 +102,13 @@ export default abstract class Room extends RoomColyseus<World.default> {
 		this.counterTpsInterval = setInterval(() => {
 			this.tps = this.elapsedTick;
 			this.elapsedTick = 0;
-			console.log('TPS: ', this.tps);
+			// Console.log('TPS: ', this.tps);
 		}, 1000);
 	}
 
 	eventRegister() {
-		this.onMessage('ping', (client, clientTime: number) => {
-			this.send(client, 'pong', clientTime);
+		this.onMessage('ping', client => {
+			client.send('pong', Date.now());
 		});
 	}
 

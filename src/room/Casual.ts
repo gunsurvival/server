@@ -59,6 +59,8 @@ export default class Casual extends Room {
 	}
 
 	eventRegister() {
+		super.eventRegister();
+
 		this.onMessage('keyUp', (client, message: string) => {
 			switch (message) {
 				case 'w':
