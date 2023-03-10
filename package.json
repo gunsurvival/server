@@ -5,7 +5,7 @@
 	"description": "Server for gunsurvival",
 	"scripts": {
 		"start": "ts-node-esm src/index.ts",
-		"watch": "nodemon --exec \"npm start\" --watch src -e ts"
+		"watch": "nodemon --exec \"ts-node-esm src/index.ts\" --watch src -e ts"
 	},
 	"keywords": [],
 	"author": "khoakomlem",
