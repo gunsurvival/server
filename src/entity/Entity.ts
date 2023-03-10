@@ -1,5 +1,4 @@
 import {type, Schema} from '@colyseus/schema';
-import type {ITickData} from '@gunsurvival/core/types';
 import type * as EntityCore from '@gunsurvival/core/entity';
 
 export class VectorSchema extends Schema {

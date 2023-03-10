@@ -42,7 +42,7 @@ export default abstract class Room extends RoomColyseus<World.default> {
 	}
 
 	simulate(targetTps = 64) {
-		const magicNumber = (0.46 * 128 / targetTps); // Based on 128 tps, best run on 1-1000tps
+		// Const magicNumber = (0.46 * 128 / targetTps); // Based on 128 tps, best run on 1-1000tps
 		// const magicNumber2 = (0.41 * 128 / targetTps); // Based on 128 tps, best run on 2000-10000tps
 		let deltaMs = performance.now() - this.lastTime;
 		this.lastTime = performance.now();
