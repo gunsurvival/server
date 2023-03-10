@@ -106,6 +106,11 @@ export default abstract class Room extends RoomColyseus<World.default> {
 		}, 1000);
 	}
 
-	abstract eventRegister(): void;
+	eventRegister() {
+		this.onMessage('ping', (client, clientTime: number) => {
+			this.send(client, 'pong', clientTime);
+		});
+	}
+
 	abstract generateWorld(): void;
 }
