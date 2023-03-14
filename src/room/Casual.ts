@@ -1,4 +1,4 @@
-import SAT from 'sat';
+import {SATVector} from 'detect-collisions';
 import {type Client} from 'colyseus';
 import * as WorldCore from '@gunsurvival/core/world';
 import * as EntityCore from '@gunsurvival/core/entity';
@@ -45,14 +45,14 @@ export default class Casual extends Room {
 	generateWorld() {
 		for (let i = -5000; i < 5000; i += Math.random() * 1000) {
 			for (let j = -5000; j < 5000; j += Math.random() * 1000) {
-				const rock = new EntityCore.Rock(new SAT.Vector(i, j));
+				const rock = new EntityCore.Rock(new SATVector(i, j));
 				this.state.worldCore.add(rock);
 			}
 		}
 
 		for (let i = -5000; i < 5000; i += Math.random() * 3000) {
 			for (let j = -5000; j < 5000; j += Math.random() * 1000) {
-				const bush = new EntityCore.Bush(new SAT.Vector(i, j));
+				const bush = new EntityCore.Bush(new SATVector(i, j));
 				this.state.worldCore.add(bush);
 			}
 		}

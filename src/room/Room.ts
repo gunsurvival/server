@@ -1,10 +1,8 @@
 import {Room as RoomColyseus, type Client} from 'colyseus';
-import * as WorldCore from '@gunsurvival/core/world';
 import * as EntityCore from '@gunsurvival/core/entity';
 import type * as World from '../world/index.js';
 import {type UserData} from '../types.js';
 import * as Player from '@gunsurvival/core/player';
-import SAT from 'sat';
 
 export default abstract class Room extends RoomColyseus<World.default> {
 	isPaused = false; // Send signal to world to pause
