@@ -39,7 +39,11 @@ export default class Casual extends Room {
 
 	onLeave(client: Client) {
 		console.log(client.sessionId, 'LEFT!');
-		this.state.entities.delete(client.userData.entityId);
+
+		const entityCore = this.state.worldCore.entities.get(client.userData.entityId);
+		if (entityCore) {
+			this.state.worldCore.remove(entityCore);
+		}
 	}
 
 	generateWorld() {
