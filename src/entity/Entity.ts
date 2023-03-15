@@ -15,6 +15,7 @@ export default abstract class Entity extends Schema {
 	@type(VectorSchema) offset: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
 
 	entityCore: EntityCore.default;
+	abstract stats: Schema; // Redefine this in the child class (colyseus schema)
 
 	update() {
 		this.pos.x = this.entityCore.body.pos.x;
