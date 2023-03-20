@@ -23,16 +23,16 @@ export default abstract class World extends Schema {
 
 	useWorld(worldCore: WorldCore.default) {
 		this.worldCore = worldCore;
-		worldCore.entities.onAdd = (entityCore: EntityCore.default) => {
+		worldCore.event.on('+entities', (entityCore: EntityCore.default) => {
 			const EntityClass = (Entity as Record<string, unknown>)[entityCore.constructor.name] as new () => Entity.default;
 			const entityInstance = new EntityClass().assign({entityCore});
 			entityInstance.id = entityCore.id;
 			this.entities.set(entityCore.id, entityInstance);
-		};
+		});
 
-		worldCore.entities.onRemove = (entityCore: EntityCore.default) => {
+		worldCore.event.on('-entities', (entityCore: EntityCore.default) => {
 			this.entities.delete(entityCore.id);
-		};
+		});
 	}
 
 	nextTick(tickData: ITickData) {
