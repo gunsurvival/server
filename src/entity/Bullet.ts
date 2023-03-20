@@ -9,15 +9,15 @@ export class StatsBullet extends Schema {
 
 export default class Bullet extends Entity {
 	@type(StatsBullet)
-		stats: StatsBullet = new StatsBullet().assign(getStats('Bullet'));
+		baseStats = new StatsBullet().assign(getStats('Bullet'));
 
-	@type(VectorSchema)
-		vel: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
+	@type(StatsBullet)
+		stats = new StatsBullet().assign(getStats('Bullet'));
+
+	declare entityCore: EntityCore.Bullet;
 
 	update() {
 		super.update();
-		this.stats.radius = (this.entityCore as EntityCore.Bullet).stats.radius;
-		this.vel.x = (this.entityCore as EntityCore.Bullet).vel.x;
-		this.vel.y = (this.entityCore as EntityCore.Bullet).vel.y;
+		this.stats.radius = this.entityCore.stats.radius;
 	}
 }
