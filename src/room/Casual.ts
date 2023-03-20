@@ -6,6 +6,7 @@ import * as Player from '@gunsurvival/core/player';
 import * as World from '../world/index.js';
 import {type UserData} from '../types.js';
 import Room from './Room.js';
+import {genId} from '@gunsurvival/core';
 
 export default class Casual extends Room {
 	isPaused = false; // Send signal to world to pause
@@ -20,6 +21,12 @@ export default class Casual extends Room {
 	onCreate(opts: any) {
 		super.onCreate(opts);
 		const worldCore = new WorldCore.Casual();
+
+		worldCore.event.on('collision', (entityCore: EntityCore.default, otherEntityCore: EntityCore.default) => {
+			const uniqid = genId(entityCore, otherEntityCore);
+			// This.broadcast('resolve-sync', uniqid);
+		});
+
 		this.setState(new World.Casual());
 		this.state.useWorld(worldCore);
 		this.generateWorld();
