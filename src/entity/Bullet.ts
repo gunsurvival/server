@@ -8,16 +8,11 @@ export class StatsBullet extends Schema {
 }
 
 export default class Bullet extends Entity {
-	@type(StatsBullet)
-		baseStats = new StatsBullet().assign(getStats('Bullet'));
-
-	@type(StatsBullet)
-		stats = new StatsBullet().assign(getStats('Bullet'));
+	@type(StatsBullet) stats = new StatsBullet().assign(getStats('Bullet'));
 
 	declare entityCore: EntityCore.Bullet;
 
 	update() {
 		super.update();
-		this.stats.radius = this.entityCore.stats.radius;
 	}
 }

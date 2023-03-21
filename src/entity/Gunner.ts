@@ -11,10 +11,15 @@ export class StatsGunner extends Schema {
 export default class Gunner extends Entity {
 	@type(StatsGunner) stats: StatsGunner = new StatsGunner().assign(getStats('Gunner'));
 
+	declare entityCore: EntityCore.Gunner;
+
 	update() {
 		super.update();
-		this.stats.health = (this.entityCore as EntityCore.Gunner).stats.health;
-		this.stats.speed = (this.entityCore as EntityCore.Gunner).stats.speed;
-		this.stats.radius = (this.entityCore as EntityCore.Gunner).stats.radius;
+		if (this.stats.health <= 0) {
+			// TODO: Make lose scence
+			this.entityCore.body.pos.x = Math.random() * 1000;
+			this.entityCore.body.pos.y = Math.random() * 1000;
+			this.entityCore.stats.health = 100;
+		}
 	}
 }

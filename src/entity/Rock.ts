@@ -7,11 +7,11 @@ class StatsRock extends Schema {
 }
 
 export default class Rock extends Entity {
-	@type(StatsRock)
-		stats: StatsRock = new StatsRock().assign(getStats('Rock'));
+	@type(StatsRock) stats: StatsRock = new StatsRock().assign(getStats('Rock'));
+
+	declare entityCore: EntityCore.Rock;
 
 	update() {
 		super.update();
-		this.stats.radius = (this.entityCore as EntityCore.Rock).stats.radius;
 	}
 }
