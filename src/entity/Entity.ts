@@ -15,14 +15,24 @@ export default abstract class Entity extends Schema {
 	@type(VectorSchema) offset: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
 
 	entityCore: EntityCore.default;
-	abstract stats: Schema; // Redefine this in the child class (colyseus schema)
+	abstract stats: Schema; // Redefine this in the child class (colyseus schema). Base stats that are not affected by effects
 
 	update() {
-		this.pos.x = this.entityCore.body.pos.x;
-		this.pos.y = this.entityCore.body.pos.y;
 		this.angle = this.entityCore.body.angle;
 		this.scale = this.entityCore.body.scale;
+		this.pos.x = this.entityCore.body.pos.x;
+		this.pos.y = this.entityCore.body.pos.y;
 		this.offset.x = this.entityCore.body.offset.x;
 		this.offset.y = this.entityCore.body.offset.y;
+
+		this.updateStats(this.entityCore.stats, this.stats);
+	}
+
+	updateStats(coreStats: Record<string, unknown>, stats: Schema) {
+		for (const key in coreStats) {
+			if (key in stats) {
+				stats[key] = coreStats[key];
+			}
+		}
 	}
 }
