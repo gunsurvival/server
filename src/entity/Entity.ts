@@ -35,4 +35,10 @@ export default abstract class Entity extends Schema {
 			}
 		}
 	}
+
+	init(entityCore: EntityCore.default) {
+		this.id = entityCore.id;
+		this.entityCore = entityCore;
+		this.updateAll();
+	}
 }

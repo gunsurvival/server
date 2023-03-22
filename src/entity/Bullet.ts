@@ -14,5 +14,8 @@ export default class Bullet extends Entity {
 
 	update() {
 		super.update();
+	init(entityCore: EntityCore.Bullet) {
+		super.init(entityCore);
+		this.speed = entityCore.speed;
 	}
 }
