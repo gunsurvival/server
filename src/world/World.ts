@@ -25,9 +25,9 @@ export default abstract class World extends Schema {
 		this.worldCore = worldCore;
 		worldCore.event.on('+entities', (entityCore: EntityCore.default) => {
 			const EntityClass = (Entity as Record<string, unknown>)[entityCore.constructor.name] as new () => Entity.default;
-			const entityInstance = new EntityClass().assign({entityCore});
-			entityInstance.id = entityCore.id;
-			this.entities.set(entityCore.id, entityInstance);
+			const entity = new EntityClass();
+			entity.init(entityCore);
+			this.entities.set(entityCore.id, entity);
 		});
 
 		worldCore.event.on('-entities', (entityCore: EntityCore.default) => {
