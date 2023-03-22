@@ -10,8 +10,4 @@ export default class Rock extends Entity {
 	@type(StatsRock) stats: StatsRock = new StatsRock().assign(getStats('Rock'));
 
 	declare entityCore: EntityCore.Rock;
-
-	update() {
-		super.update();
-	}
 }

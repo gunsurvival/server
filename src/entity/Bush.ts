@@ -14,8 +14,4 @@ export default class Bush extends Entity {
 	@type(StatsBush) stats: StatsBush = new StatsBush().assign(getStats('Bush'));
 
 	declare entityCore: EntityCore.Bush;
-
-	update() {
-		super.update();
-	}
 }
