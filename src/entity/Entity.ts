@@ -12,6 +12,7 @@ export default abstract class Entity extends Schema {
 	@type('number') scale = 1;
 	@type('number') angle = 0;
 	@type(VectorSchema) pos: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
+	@type(VectorSchema) vel: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
 	@type(VectorSchema) offset: VectorSchema = new VectorSchema().assign({x: 0, y: 0});
 
 	entityCore: EntityCore.default;
