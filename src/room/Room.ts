@@ -57,7 +57,7 @@ export default abstract class Room extends RoomColyseus<World.default> {
 				accumulator: this.accumulator,
 				elapsedMs: this.elapsedMs,
 				deltaMs: this.targetDeltaMs,
-				delta: 1,
+				delta: 128 / targetTps,
 			};
 
 			this.clients.forEach(client => {
