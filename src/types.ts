@@ -1,5 +1,4 @@
-import type Entity from '@gunsurvival/core/entity';
-import type {Casual as Player} from '@gunsurvival/core/player';
+import type Player from '@gunsurvival/core/player';
 
 export type ServerToClientEvents = {
 	noArg: () => void;
@@ -22,5 +21,5 @@ export type SocketData = {
 
 export type UserData = {
 	entityId: string;
-	player: Player<Entity>;
+	player: Player;
 };
