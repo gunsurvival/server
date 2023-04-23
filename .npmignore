@@ -1,4 +1,6 @@
 .github
-dist
 node_modules
+src
+.editorconfig
+.gitignore
 yarn-error.log
