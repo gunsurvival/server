@@ -18,7 +18,7 @@ export default class Bullet extends Entity {
 		// this.scale = this.entityCore.body.scale;
 		// This.speed = this.entityCore.speed;
 		// super.update();
-		this.updateStats(this.entityCore.stats, this.stats);
+		this.updateStats(this.stats, this.entityCore._stats);
 	}
 
 	init(entityCore: EntityCore.Bullet) {

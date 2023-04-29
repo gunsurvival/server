@@ -19,7 +19,7 @@ export default class Gunner extends Entity {
 			// TODO: Make lose scence
 			this.entityCore.body.pos.x = Math.random() * 1000;
 			this.entityCore.body.pos.y = Math.random() * 1000;
-			this.entityCore.stats.health = 100;
+			this.entityCore._stats.health = 100;
 		}
 	}
 }

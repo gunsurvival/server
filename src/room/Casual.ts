@@ -1,5 +1,5 @@
 import {SATVector} from 'detect-collisions';
-import {type Client} from 'colyseus';
+import {type Client as BaseClient} from 'colyseus';
 import * as WorldCore from '@gunsurvival/core/world';
 import * as EntityCore from '@gunsurvival/core/entity';
 import * as Player from '@gunsurvival/core/player';
@@ -7,6 +7,9 @@ import * as World from '../world/index.js';
 import {type UserData} from '../types.js';
 import Room from './Room.js';
 import {genId} from '@gunsurvival/core';
+
+type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+type Client = Overwrite<BaseClient, {userData: UserData}>;
 
 export default class Casual extends Room {
 	isPaused = false; // Send signal to world to pause
@@ -22,7 +25,7 @@ export default class Casual extends Room {
 		super.onCreate(opts);
 		const worldCore = new WorldCore.Casual();
 
-		worldCore.event.on('collision', (entityCore: EntityCore.default, otherEntityCore: EntityCore.default) => {
+		worldCore.event.on('collision-enter', (entityCore: EntityCore.default, otherEntityCore: EntityCore.default) => {
 			const uniqid = genId(entityCore, otherEntityCore);
 			// This.broadcast('resolve-sync', uniqid);
 		});
@@ -37,10 +40,11 @@ export default class Casual extends Room {
 		console.log(client.sessionId, 'JOINED');
 		const gunner = new EntityCore.Gunner();
 		gunner.id = client.sessionId;
-		client.userData = {};
-		(client.userData as UserData).player = new Player.Casual();
-		(client.userData as UserData).player.playAs(gunner);
-		(client.userData as UserData).entityId = gunner.id;
+		client.userData = {
+			entityId: gunner.id,
+			player: new Player.Casual(),
+		};
+		client.userData.player.playAs(gunner);
 		this.state.worldCore.add(gunner);
 	}
 
@@ -73,18 +77,19 @@ export default class Casual extends Room {
 		super.eventRegister();
 
 		this.onMessage('keyUp', (client, message: string) => {
+			const _client = client as Client;
 			switch (message) {
 				case 'w':
-					(client.userData as UserData).player.state.keyboard.w = false;
+					_client.userData.player.state.keyboard.w = false;
 					break;
 				case 'a':
-					(client.userData as UserData).player.state.keyboard.a = false;
+					_client.userData.player.state.keyboard.a = false;
 					break;
 				case 's':
-					(client.userData as UserData).player.state.keyboard.s = false;
+					_client.userData.player.state.keyboard.s = false;
 					break;
 				case 'd':
-					(client.userData as UserData).player.state.keyboard.d = false;
+					_client.userData.player.state.keyboard.d = false;
 					break;
 				default:
 					break;
@@ -92,18 +97,20 @@ export default class Casual extends Room {
 		});
 
 		this.onMessage('keyDown', (client, message: string) => {
+			const _client = client as Client;
+
 			switch (message) {
 				case 'w':
-					(client.userData as UserData).player.state.keyboard.w = true;
+					_client.userData.player.state.keyboard.w = true;
 					break;
 				case 'a':
-					(client.userData as UserData).player.state.keyboard.a = true;
+					_client.userData.player.state.keyboard.a = true;
 					break;
 				case 's':
-					(client.userData as UserData).player.state.keyboard.s = true;
+					_client.userData.player.state.keyboard.s = true;
 					break;
 				case 'd':
-					(client.userData as UserData).player.state.keyboard.d = true;
+					_client.userData.player.state.keyboard.d = true;
 					break;
 				default:
 					break;
@@ -113,13 +120,13 @@ export default class Casual extends Room {
 		this.onMessage('mouseDown', (client, message: string) => {
 			switch (message) {
 				case 'left':
-					(client.userData as UserData).player.state.mouse.left = true;
+					client.userData.player.state.mouse.left = true;
 					break;
 				case 'middle':
-					(client.userData as UserData).player.state.mouse.middle = true;
+					client.userData.player.state.mouse.middle = true;
 					break;
 				case 'right':
-					(client.userData as UserData).player.state.mouse.right = true;
+					client.userData.player.state.mouse.right = true;
 					break;
 				default:
 					break;
@@ -127,15 +134,17 @@ export default class Casual extends Room {
 		});
 
 		this.onMessage('mouseUp', (client, message: string) => {
+			const _client = client as Client;
+
 			switch (message) {
 				case 'left':
-					(client.userData as UserData).player.state.mouse.left = false;
+					_client.userData.player.state.mouse.left = false;
 					break;
 				case 'middle':
-					(client.userData as UserData).player.state.mouse.middle = false;
+					_client.userData.player.state.mouse.middle = false;
 					break;
 				case 'right':
-					(client.userData as UserData).player.state.mouse.right = false;
+					_client.userData.player.state.mouse.right = false;
 					break;
 				default:
 					break;
@@ -143,7 +152,13 @@ export default class Casual extends Room {
 		});
 
 		this.onMessage('angle', (client, angle: number) => {
-			(client.userData as UserData).player.entity.body.angle = angle;
+			const _client = client as Client;
+			_client.userData.player.entity.body.angle = angle;
+		});
+
+		this.onMessage('inventory-choose', (client, indexes: number[]) => {
+			const _client = client as Client;
+			_client.userData.player.entity.inventory.chooseMulti(indexes).catch(console.error);
 		});
 	}
 }

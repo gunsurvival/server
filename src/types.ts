@@ -1,4 +1,4 @@
-import type Player from '@gunsurvival/core/player';
+import type * as Player from '@gunsurvival/core/player';
 
 export type ServerToClientEvents = {
 	noArg: () => void;
@@ -21,5 +21,5 @@ export type SocketData = {
 
 export type UserData = {
 	entityId: string;
-	player: Player;
+	player: Player.Casual;
 };

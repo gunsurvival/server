@@ -31,10 +31,10 @@ export default abstract class Entity extends Schema {
 		this.vel.y = this.entityCore.vel.y;
 		this.offset.x = this.entityCore.body.offset.x;
 		this.offset.y = this.entityCore.body.offset.y;
-		this.updateStats(this.entityCore.stats, this.stats);
+		this.updateStats(this.stats, this.entityCore._stats);
 	}
 
-	updateStats(coreStats: Record<string, unknown>, stats: Schema) {
+	updateStats(stats: Schema, coreStats: Record<string, unknown>) {
 		for (const key in coreStats) {
 			if (key in stats) {
 				stats[key] = coreStats[key];

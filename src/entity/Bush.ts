@@ -6,10 +6,6 @@ export class StatsBush extends Schema {
 	@type('number') radius: number;
 }
 
-function updateStats(stats: StatsBush, entityCore: EntityCore.Bush) {
-	stats.radius = entityCore.stats.radius;
-}
-
 export default class Bush extends Entity {
 	@type(StatsBush) stats: StatsBush = new StatsBush().assign(getStats('Bush'));
 
