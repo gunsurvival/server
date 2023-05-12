@@ -1,10 +1,10 @@
-import {Room as RoomColyseus, type Client} from 'colyseus';
-import * as EntityCore from '@gunsurvival/core/entity';
+import {Room as RoomColyseus, type ClientArray, type Client} from '@colyseus/core';
 import type * as World from '../world/index.js';
 import {type UserData} from '../types.js';
 import * as Player from '@gunsurvival/core/player';
 
 export default abstract class Room extends RoomColyseus<World.default> {
+	clients: ClientArray<UserData>;
 	isPaused = false; // Send signal to world to pause
 	confirmPaused = false; // Confirm world has paused
 	targetDeltaMs: number;
@@ -20,19 +20,27 @@ export default abstract class Room extends RoomColyseus<World.default> {
 		this.lastTime = performance.now(); // Important: Reset the lastTime
 	}
 
-	onJoin(client: Client, options: any) {
+	onJoin(client: Client<UserData>, options: any) {
 		console.log(client.sessionId, 'JOINED');
-		const gunner = new EntityCore.Gunner();
-		gunner.id = client.sessionId;
-		client.userData = {};
-		(client.userData as UserData).player = new Player.Casual();
-		(client.userData as UserData).player.playAs(gunner);
-		this.state.worldCore.add(gunner);
+
+		this.state.worldCore.api('api:+entities', 'Gunner', {
+			id: client.sessionId,
+		}).then(gunner => {
+			if (!gunner) {
+				return;
+			}
+
+			client.userData = {
+				entityId: gunner.id,
+				player: new Player.Casual(),
+			};
+			client.userData.player.playAs(gunner);
+		}).catch(console.error);
 	}
 
-	onLeave(client: Client) {
+	onLeave(client: Client<UserData>) {
 		console.log(client.sessionId, 'LEFT!');
-		this.state.worldCore.entities.delete((client.userData as UserData).player.entity.id);
+		this.state.worldCore.entities.delete((client.userData!).player.entity.id);
 	}
 
 	onDispose() {
@@ -61,7 +69,9 @@ export default abstract class Room extends RoomColyseus<World.default> {
 			};
 
 			this.clients.forEach(client => {
-				(client.userData as UserData).player.update(this.state.worldCore, tickData);
+				if (client.userData) {
+					client.userData.player.update(this.state.worldCore, tickData);
+				}
 			});
 
 			this.state.nextTick(tickData);

@@ -1,8 +1,14 @@
-import {type, filterChildren, Schema, MapSchema} from '@colyseus/schema';
+import {type, filterChildren, Schema, MapSchema, ArraySchema} from '@colyseus/schema';
 import type * as WorldCore from '@gunsurvival/core/world';
 import type * as EntityCore from '@gunsurvival/core/entity';
 import * as Entity from '../entity/index.js';
 import {type ITickData} from '@gunsurvival/core/types';
+import {type IEvent} from '@gunsurvival/core/world/World.js';
+
+class EventSchema extends Schema {
+	@type('string') type: string;
+	@type('string') args: string;
+}
 
 export default abstract class World extends Schema {
 	// @filterChildren((client, key: string, entity: Entity, root: World) => {
@@ -16,22 +22,30 @@ export default abstract class World extends Schema {
 
 	// 	return false;
 	// })
-	@type({map: Entity.default})
-		entities = new MapSchema<Entity.default>();
+	@type([EventSchema]) events = new ArraySchema<EventSchema>();
+	@type({map: Entity.default}) entities = new MapSchema<Entity.default>();
 
 	worldCore: WorldCore.default;
 
 	useWorld(worldCore: WorldCore.default) {
 		this.worldCore = worldCore;
-		worldCore.event.on('+entities', (entityCore: EntityCore.default) => {
-			const EntityClass = (Entity as Record<string, unknown>)[entityCore.constructor.name] as new () => Entity.default;
+
+		worldCore.event.on('+entities', entityCore => {
+			const EntityClass = Entity[entityCore.name] as new () => Entity.default;
 			const entity = new EntityClass();
 			entity.init(entityCore);
 			this.entities.set(entityCore.id, entity);
 		});
 
-		worldCore.event.on('-entities', (entityCore: EntityCore.default) => {
+		worldCore.event.on('-entities', entityCore => {
 			this.entities.delete(entityCore.id);
+		});
+
+		worldCore.event.on('+events', (event: IEvent) => {
+			this.events.push(new EventSchema().assign({
+				type: event.type,
+				args: JSON.stringify(event.args),
+			}));
 		});
 	}
 
@@ -50,3 +64,4 @@ export default abstract class World extends Schema {
 		this.worldCore.remove(entityCore);
 	}
 }
+
