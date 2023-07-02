@@ -20,15 +20,14 @@
 	"author": "khoakomlem",
 	"license": "MIT",
 	"dependencies": {
-		"@colyseus/core": "^0.15.2",
-		"@colyseus/schema": "^2.0.7",
-		"@colyseus/ws-transport": "^0.15.0",
+		"@colyseus/core": "^0.15.6",
+		"@colyseus/schema": "^2.0.10",
+		"@colyseus/ws-transport": "^0.15.1",
 		"@gunsurvival/core": "^1.0.0",
-		"colyseus": "^0.15.0",
+		"colyseus": "^0.15.5",
 		"cors": "^2.8.5",
 		"detect-collisions": "^7.0.0",
-		"express": "^4.18.2",
-		"socket.io": "^4.5.4"
+		"express": "^4.18.2"
 	},
 	"devDependencies": {
 		"@colyseus/monitor": "^0.14.22",
