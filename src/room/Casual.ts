@@ -5,6 +5,7 @@ import * as Player from '@gunsurvival/core/player';
 import * as World from '../world/index.js';
 import {type UserData} from '../types.js';
 import Room from './Room.js';
+import {safeId} from '@gunsurvival/core';
 
 export default class Casual extends Room {
 	clients: ClientArray<UserData>; // Overwrite the type of clients
@@ -37,15 +38,15 @@ export default class Casual extends Room {
 	}
 
 	generateWorld() {
-		for (let i = -5000; i < 5000; i += Math.random() * 1000) {
-			for (let j = -5000; j < 5000; j += Math.random() * 1000) {
-				this.state.worldCore.api('api:+entities', 'Rock', {pos: new SATVector(i, j)}).catch(console.error);
+		for (let i = -2000; i < 2000; i += Math.random() * 1000) {
+			for (let j = -2000; j < 2000; j += Math.random() * 1000) {
+				this.state.worldCore.api('api:+entities', 'Rock', {id: safeId().toString(), pos: new SATVector(i, j)}).catch(console.error);
 			}
 		}
 
-		for (let i = -5000; i < 5000; i += Math.random() * 1000) {
-			for (let j = -5000; j < 5000; j += Math.random() * 1000) {
-				this.state.worldCore.api('api:+entities', 'Bush', {pos: new SATVector(i, j)}).catch(console.error);
+		for (let i = -2000; i < 2000; i += Math.random() * 1000) {
+			for (let j = -2000; j < 2000; j += Math.random() * 1000) {
+				this.state.worldCore.api('api:+entities', 'Bush', {id: safeId().toString(), pos: new SATVector(i, j)}).catch(console.error);
 			}
 		}
 	}
