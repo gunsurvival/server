@@ -49,6 +49,24 @@ export default class Casual extends Room {
 				this.state.worldCore.api('api:+entities', 'Bush', {id: safeId().toString(), pos: new SATVector(i, j)}).catch(console.error);
 			}
 		}
+
+		for (let i = -2000; i < 2000; i += Math.random() * 2000) {
+			for (let j = -2000; j < 2000; j += Math.random() * 2000) {
+				this.state.worldCore.api('api:+entities', 'Wolf', {
+					id: safeId().toString(),
+					pos: new SATVector(i, j),
+				}).catch(console.error);
+			}
+		}
+
+		for (let i = -2000; i < 2000; i += Math.random() * 2000) {
+			for (let j = -2000; j < 2000; j += Math.random() * 2000) {
+				this.state.worldCore.api('api:+entities', 'Spider', {
+					id: safeId().toString(),
+					pos: new SATVector(i, j),
+				}).catch(console.error);
+			}
+		}
 	}
 
 	eventRegister() {
