@@ -42,10 +42,14 @@ export default abstract class World extends Schema {
 		});
 
 		worldCore.event.on('+events', (event: IEvent) => {
-			this.events.push(new EventSchema().assign({
-				type: event.type,
-				args: JSON.stringify(event.args),
-			}));
+			try {
+				this.events.push(new EventSchema().assign({
+					type: event.type,
+					args: JSON.stringify(event.args),
+				}));
+			} catch (e) {
+				console.log(event);
+			}
 		});
 	}
 
