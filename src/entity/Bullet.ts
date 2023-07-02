@@ -10,6 +10,7 @@ export class StatsBullet extends Schema {
 export default class Bullet extends Entity {
 	@type(StatsBullet) stats = new StatsBullet().assign(getStats('Bullet'));
 	@type('number') speed = 0;
+	@type('string') ownerId = '';
 
 	declare entityCore: EntityCore.Bullet;
 
@@ -24,5 +25,6 @@ export default class Bullet extends Entity {
 	init(entityCore: EntityCore.Bullet) {
 		super.init(entityCore);
 		this.speed = entityCore.speed;
+		this.ownerId = entityCore.ownerId;
 	}
 }
