@@ -1,4 +1,10 @@
-import {type, filterChildren, Schema, MapSchema, ArraySchema} from '@colyseus/schema';
+import {
+	type,
+	filterChildren,
+	Schema,
+	MapSchema,
+	ArraySchema,
+} from '@colyseus/schema';
 import type * as WorldCore from '@gunsurvival/core/world';
 import type * as EntityCore from '@gunsurvival/core/entity';
 import * as Entity from '../entity/index.js';
@@ -43,10 +49,12 @@ export default abstract class World extends Schema {
 
 		worldCore.event.on('+events', (event: IEvent) => {
 			try {
-				this.events.push(new EventSchema().assign({
-					type: event.type,
-					args: JSON.stringify(event.args),
-				}));
+				this.events.push(
+					new EventSchema().assign({
+						type: event.type,
+						args: JSON.stringify(event.args),
+					}),
+				);
 			} catch (e) {
 				console.log(event);
 			}
@@ -56,7 +64,7 @@ export default abstract class World extends Schema {
 	nextTick(tickData: ITickData) {
 		this.worldCore.nextTick(tickData);
 		this.entities.forEach((entity: Entity.default) => {
-			entity.update();
+			entity.update(this, tickData);
 		});
 	}
 
@@ -68,4 +76,3 @@ export default abstract class World extends Schema {
 		this.worldCore.remove(entityCore);
 	}
 }
-

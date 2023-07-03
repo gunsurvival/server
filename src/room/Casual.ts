@@ -34,37 +34,53 @@ export default class Casual extends Room {
 	onLeave(client: Client<UserData>) {
 		console.log(client.sessionId, 'LEFT!');
 
-		this.state.worldCore.api('api:-entities', client.sessionId).catch(console.error);
+		this.state.worldCore
+			.api('api:-entities', client.sessionId)
+			.catch(console.error);
 	}
 
 	generateWorld() {
 		for (let i = -2000; i < 2000; i += Math.random() * 1000) {
 			for (let j = -2000; j < 2000; j += Math.random() * 1000) {
-				this.state.worldCore.api('api:+entities', 'Rock', {id: safeId().toString(), pos: new SATVector(i, j)}).catch(console.error);
+				this.state.worldCore
+					.api('api:+entities', 'Rock', {
+						id: safeId().toString(),
+						pos: new SATVector(i, j),
+					})
+					.catch(console.error);
 			}
 		}
 
 		for (let i = -2000; i < 2000; i += Math.random() * 1000) {
 			for (let j = -2000; j < 2000; j += Math.random() * 1000) {
-				this.state.worldCore.api('api:+entities', 'Bush', {id: safeId().toString(), pos: new SATVector(i, j)}).catch(console.error);
+				this.state.worldCore
+					.api('api:+entities', 'Bush', {
+						id: safeId().toString(),
+						pos: new SATVector(i, j),
+					})
+					.catch(console.error);
 			}
 		}
 
 		for (let i = -2000; i < 2000; i += Math.random() * 2000) {
 			for (let j = -2000; j < 2000; j += Math.random() * 2000) {
-				this.state.worldCore.api('api:+entities', 'Wolf', {
-					id: safeId().toString(),
-					pos: new SATVector(i, j),
-				}).catch(console.error);
+				this.state.worldCore
+					.api('api:+entities', 'Wolf', {
+						id: safeId().toString(),
+						pos: new SATVector(i, j),
+					})
+					.catch(console.error);
 			}
 		}
 
 		for (let i = -2000; i < 2000; i += Math.random() * 2000) {
 			for (let j = -2000; j < 2000; j += Math.random() * 2000) {
-				this.state.worldCore.api('api:+entities', 'Spider', {
-					id: safeId().toString(),
-					pos: new SATVector(i, j),
-				}).catch(console.error);
+				this.state.worldCore
+					.api('api:+entities', 'Spider', {
+						id: safeId().toString(),
+						pos: new SATVector(i, j),
+					})
+					.catch(console.error);
 			}
 		}
 	}
@@ -166,12 +182,17 @@ export default class Casual extends Room {
 			client.userData.player.entity.body.angle = angle;
 		});
 
-		this.onMessage('inventory-choose', (client: Client<UserData>, indexes: number[]) => {
-			if (!client.userData) {
-				return;
-			}
+		this.onMessage(
+			'inventory-choose',
+			(client: Client<UserData>, indexes: number[]) => {
+				if (!client.userData) {
+					return;
+				}
 
-			client.userData.player.entity.inventory.chooseMulti(indexes).catch(console.error);
-		});
+				client.userData.player.entity.inventory
+					.chooseMulti(indexes)
+					.catch(console.error);
+			},
+		);
 	}
 }

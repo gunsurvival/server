@@ -28,7 +28,9 @@ const gameServer = new Server({
 
 setInterval(() => {
 	const memoryUsage = process.memoryUsage().heapTotal / 1024 / 1024;
-	setTerminalTitle(`GUNSURVIVAL 3 SERVER - MEMORY: ${memoryUsage.toFixed(2)}MB`);
+	setTerminalTitle(
+		`GUNSURVIVAL 3 SERVER - MEMORY: ${memoryUsage.toFixed(2)}MB`,
+	);
 }, 1000);
 
 await gameServer.listen(port);

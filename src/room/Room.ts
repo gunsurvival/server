@@ -1,4 +1,8 @@
-import {Room as RoomColyseus, type ClientArray, type Client} from '@colyseus/core';
+import {
+	Room as RoomColyseus,
+	type ClientArray,
+	type Client,
+} from '@colyseus/core';
 import type * as World from '../world/index.js';
 import {type UserData} from '../types.js';
 import * as Player from '@gunsurvival/core/player';
@@ -23,24 +27,27 @@ export default abstract class Room extends RoomColyseus<World.default> {
 	onJoin(client: Client<UserData>, options: any) {
 		console.log(client.sessionId, 'JOINED');
 
-		this.state.worldCore.api('api:+entities', 'Gunner', {
-			id: client.sessionId,
-		}).then(gunner => {
-			if (!gunner) {
-				return;
-			}
+		this.state.worldCore
+			.api('api:+entities', 'Gunner', {
+				id: client.sessionId,
+			})
+			.then(gunner => {
+				if (!gunner) {
+					return;
+				}
 
-			client.userData = {
-				entityId: gunner.id,
-				player: new Player.Casual(),
-			};
-			client.userData.player.playAs(gunner);
-		}).catch(console.error);
+				client.userData = {
+					entityId: gunner.id,
+					player: new Player.Casual(),
+				};
+				client.userData.player.playAs(gunner);
+			})
+			.catch(console.error);
 	}
 
 	onLeave(client: Client<UserData>) {
 		console.log(client.sessionId, 'LEFT!');
-		this.state.worldCore.entities.delete((client.userData!).player.entity.id);
+		this.state.worldCore.entities.delete(client.userData!.player.entity.id);
 	}
 
 	onDispose() {
@@ -93,7 +100,7 @@ export default abstract class Room extends RoomColyseus<World.default> {
 	}
 
 	startSimulate(targetTps: number) {
-		this.targetDeltaMs = (1000 / targetTps);
+		this.targetDeltaMs = 1000 / targetTps;
 		// This.setPatchRate(this.targetDeltaMs);
 		this.setPatchRate(30);
 
