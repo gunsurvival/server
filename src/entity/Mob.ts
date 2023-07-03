@@ -11,8 +11,4 @@ export class StatsMob extends Schema {
 export default abstract class Mob extends Entity {
 	abstract stats: StatsMob;
 	abstract entityCore: EntityCore.Mob;
-
-	update() {
-		super.update();
-	}
 }

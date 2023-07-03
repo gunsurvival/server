@@ -8,23 +8,19 @@ export class StatsBullet extends Schema {
 }
 
 export default class Bullet extends Entity {
-	@type(StatsBullet) stats = new StatsBullet().assign(getStats('Bullet'));
 	@type('number') speed = 0;
 	@type('string') ownerId = '';
 
-	declare entityCore: EntityCore.Bullet;
+	@type(StatsBullet) stats = new StatsBullet().assign(getStats('Bullet'));
+	entityCore: EntityCore.Bullet;
 
-	update() {
-		// This.angle = this.entityCore.body.angle;
-		// this.scale = this.entityCore.body.scale;
-		// This.speed = this.entityCore.speed;
-		// super.update();
-		this.updateStats(this.stats, this.entityCore._stats);
-	}
-
-	init(entityCore: EntityCore.Bullet) {
+	initCore(entityCore: EntityCore.Bullet) {
 		super.init(entityCore);
 		this.speed = entityCore.speed;
 		this.ownerId = entityCore.ownerId;
+	}
+
+	update() {
+		this.updateStats(this.stats, this.entityCore._stats);
 	}
 }

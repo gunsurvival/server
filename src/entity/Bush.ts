@@ -8,6 +8,9 @@ export class StatsBush extends Schema {
 
 export default class Bush extends Entity {
 	@type(StatsBush) stats: StatsBush = new StatsBush().assign(getStats('Bush'));
+	entityCore: EntityCore.Bush;
 
-	declare entityCore: EntityCore.Bush;
+	update() {
+		this.updateStats(this.stats, this.entityCore._stats);
+	}
 }
