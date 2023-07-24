@@ -11,6 +11,7 @@ export default class Bush extends Entity {
 	entityCore: EntityCore.Bush;
 
 	update() {
+		super.updateBase();
 		this.updateStats(this.stats, this.entityCore._stats);
 	}
 }
