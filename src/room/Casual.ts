@@ -1,4 +1,4 @@
-import {SATVector} from 'detect-collisions';
+import SAT from 'sat';
 import {type ClientArray, type Client} from '@colyseus/core';
 import * as WorldCore from '@gunsurvival/core/world';
 import * as Player from '@gunsurvival/core/player';
@@ -8,10 +8,8 @@ import Room from './Room.js';
 import {safeId} from '@gunsurvival/core';
 
 export default class Casual extends Room {
-	clients: ClientArray<UserData>; // Overwrite the type of clients
 	isPaused = false; // Send signal to world to pause
 	confirmPaused = false; // Confirm world has paused
-	targetDeltaMs: number;
 	elapsedMs = 0;
 	accumulator = 0;
 	lastTime = performance.now();
@@ -45,7 +43,7 @@ export default class Casual extends Room {
 				this.state.worldCore
 					.api('api:+entities', 'Rock', {
 						id: safeId().toString(),
-						pos: new SATVector(i, j),
+						pos: new SAT.Vector(i, j),
 					})
 					.catch(console.error);
 			}
@@ -56,7 +54,7 @@ export default class Casual extends Room {
 				this.state.worldCore
 					.api('api:+entities', 'Bush', {
 						id: safeId().toString(),
-						pos: new SATVector(i, j),
+						pos: new SAT.Vector(i, j),
 					})
 					.catch(console.error);
 			}
@@ -67,7 +65,7 @@ export default class Casual extends Room {
 				this.state.worldCore
 					.api('api:+entities', 'Wolf', {
 						id: safeId().toString(),
-						pos: new SATVector(i, j),
+						pos: new SAT.Vector(i, j),
 					})
 					.catch(console.error);
 			}
@@ -78,7 +76,7 @@ export default class Casual extends Room {
 				this.state.worldCore
 					.api('api:+entities', 'Spider', {
 						id: safeId().toString(),
-						pos: new SATVector(i, j),
+						pos: new SAT.Vector(i, j),
 					})
 					.catch(console.error);
 			}
