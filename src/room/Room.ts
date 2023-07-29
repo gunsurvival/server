@@ -8,7 +8,7 @@ import {type UserData} from '../types.js';
 import * as Player from '@gunsurvival/core/player';
 
 export default abstract class Room extends RoomColyseus<World.default> {
-	clients: ClientArray<UserData>;
+	declare clients: ClientArray<UserData>;
 	isPaused = false; // Send signal to world to pause
 	confirmPaused = false; // Confirm world has paused
 	targetDeltaMs: number;
